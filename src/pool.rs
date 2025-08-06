@@ -1,6 +1,7 @@
 use std::collections::VecDeque;
 use std::fmt;
-use std::sync::{Arc, Mutex, Weak};
+use may::sync::{Mutex};
+use std::sync::{Arc, Weak};
 
 use http::uri::{Authority, Scheme};
 use http::Uri;

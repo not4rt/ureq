@@ -2,8 +2,10 @@
 
 use std::cell::RefCell;
 use std::io::Write;
-use std::sync::mpsc::{self, Receiver, RecvTimeoutError};
-use std::sync::{Arc, Mutex};
+use may::sync::mpsc::{self, Receiver};
+use may::sync::{Mutex};
+use std::sync::mpsc::{RecvTimeoutError};
+use std::sync::{Arc};
 use std::{fmt, io, thread};
 
 use http::{Method, Request, Uri};

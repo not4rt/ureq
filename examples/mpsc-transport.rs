@@ -1,4 +1,5 @@
-use std::sync::{mpsc, Arc, Mutex};
+use may::sync::{mpsc, Mutex};
+use std::sync::Arc;
 use std::thread;
 use std::time::Duration;
 
@@ -90,7 +91,7 @@ impl<In: Transport> Connector<In> for MpscConnector {
 /// These will be connected to another such pair.
 #[derive(Debug)]
 pub struct TxRx {
-    tx: mpsc::SyncSender<Vec<u8>>,
+    tx: mpsc::Sender<Vec<u8>>,
     // The Mutex here us unfortunate for this example since we are not using rx in
     // a "Sync way", but we also don't want to make an unsafe impl Sync to risk
     // having the repo flagged as unsafe by overzealous compliance tools.
@@ -100,12 +101,12 @@ pub struct TxRx {
 
 impl TxRx {
     pub fn pair() -> (TxRx, TxRx) {
-        let (tx1, rx1) = mpsc::sync_channel(10);
-        let (tx2, rx2) = mpsc::sync_channel(10);
+        let (tx1, rx1) = mpsc::channel();
+        let (tx2, rx2) = mpsc::channel();
         (TxRx::new(tx1, rx2), TxRx::new(tx2, rx1))
     }
 
-    fn new(tx: mpsc::SyncSender<Vec<u8>>, rx: mpsc::Receiver<Vec<u8>>) -> Self {
+    fn new(tx: mpsc::Sender<Vec<u8>>, rx: mpsc::Receiver<Vec<u8>>) -> Self {
         Self {
             tx,
             rx: Mutex::new(rx),

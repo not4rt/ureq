@@ -1,6 +1,7 @@
 use std::convert::TryFrom;
 use std::io::{Read, Write};
-use std::sync::{Arc, Mutex, OnceLock};
+use may::sync::{Mutex};
+use std::sync::{Arc, OnceLock};
 use std::{fmt, io};
 
 use crate::tls::{RootCerts, TlsProvider};

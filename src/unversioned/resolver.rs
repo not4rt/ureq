@@ -12,7 +12,8 @@
 //! than DNS for it.
 use std::fmt::{self, Debug};
 use std::net::{IpAddr, Ipv4Addr, SocketAddr, SocketAddrV4, ToSocketAddrs};
-use std::sync::mpsc::{self, RecvTimeoutError};
+use may::sync::mpsc::{self};
+use std::sync::mpsc::RecvTimeoutError;
 use std::thread::{self};
 use std::vec::IntoIter;
 
@@ -143,7 +144,7 @@ fn resolve_async(addr: String, timeout: NextTimeout) -> Result<IntoIter<SocketAd
     // TODO(martin): On Linux we have getaddrinfo_a which is a libc async way of
     // doing host lookup. We should make a subcrate that uses a native async method
     // when possible, and otherwise fall back on this thread behavior.
-    let (tx, rx) = mpsc::sync_channel(1);
+    let (tx, rx) = mpsc::channel();
     thread::spawn(move || tx.send(addr.to_socket_addrs()).ok());
 
     match rx.recv_timeout(*timeout.after) {

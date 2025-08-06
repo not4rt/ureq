@@ -1,7 +1,7 @@
 use std::borrow::Cow;
 use std::fmt;
 use std::iter;
-use std::sync::{Mutex, MutexGuard};
+use may::sync::{Mutex, MutexGuard};
 
 use cookie_store::CookieStore;
 use http::Uri;

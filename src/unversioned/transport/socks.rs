@@ -1,7 +1,8 @@
 use std::fmt;
 use std::iter::once;
-use std::net::{SocketAddr, TcpStream};
-use std::sync::mpsc::{self, RecvTimeoutError};
+use may::net::{SocketAddr, TcpStream};
+use may::sync::mpsc::{self};
+use std::sync::mpsc::{RecvTimeoutError};
 use std::{io, thread};
 
 use socks::{Socks4Stream, Socks5Stream, ToTargetAddr};

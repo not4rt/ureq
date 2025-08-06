@@ -1,5 +1,6 @@
 use std::io::{Read, Write};
-use std::net::{SocketAddr, TcpStream};
+use std::net::{SocketAddr};
+use may::net::{TcpStream};
 use std::{fmt, io, time};
 
 use crate::config::Config;
@@ -183,7 +184,7 @@ impl Transport for TcpTransport {
 
 fn probe_tcp_stream(stream: &mut TcpStream) -> Result<bool, Error> {
     // Temporary do non-blocking IO
-    stream.set_nonblocking(true)?;
+    // stream.set_nonblocking(true)?;
 
     let mut buf = [0];
     match stream.read(&mut buf) {
@@ -201,7 +202,7 @@ fn probe_tcp_stream(stream: &mut TcpStream) -> Result<bool, Error> {
     };
 
     // Reset back to blocking
-    stream.set_nonblocking(false)?;
+    // stream.set_nonblocking(false)?;
 
     Ok(true)
 }

@@ -1,6 +1,6 @@
 use std::fs::File;
 use std::io::{self, Read, Stdin};
-use std::net::TcpStream;
+use may::net::TcpStream;
 
 use crate::body::{Body, BodyReader};
 use crate::http;
@@ -268,10 +268,10 @@ impl AsSendBody for &File {
     }
 }
 
-impl Private for &TcpStream {}
-impl AsSendBody for &TcpStream {
+impl Private for &mut TcpStream {}
+impl AsSendBody for &mut TcpStream {
     fn as_body(&mut self) -> SendBody {
-        BodyInner::Reader(self).into()
+        BodyInner::Reader(*self).into()
     }
 }
 
@@ -300,7 +300,7 @@ impl AsSendBody for Stdin {
 // impl_into_body!(&Stdin, Reader);
 
 #[cfg(target_family = "unix")]
-use std::os::unix::net::UnixStream;
+use may::os::unix::net::UnixStream;
 
 #[cfg(target_family = "unix")]
 impl Private for UnixStream {}
